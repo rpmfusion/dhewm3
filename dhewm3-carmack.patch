@@ -1,0 +1,52 @@
+diff --git a/neo/CMakeLists.txt b/neo/CMakeLists.txt
+index 57d27d4..7ed0ab0 100644
+--- a/neo/CMakeLists.txt
++++ b/neo/CMakeLists.txt
+@@ -30,6 +30,7 @@ option(D3XP			"Build the d3xp game code" ON)
+ option(DEDICATED	"Build the dedicated server" OFF)
+ option(ONATIVE		"Optimize for the host CPU" OFF)
+ option(SDL2			"Use SDL2 instead of SDL1.2" OFF)
++option(ZFAIL			"Use Carmack's reverse" OFF)
+ 
+ if(NOT CMAKE_SYSTEM_PROCESSOR)
+ 	message(FATAL_ERROR "No target CPU architecture set")
+@@ -738,6 +739,9 @@ if(CORE)
+ 		${src_sys_base}
+ 		${src_sys_core}
+ 	)
++	if(ZFAIL)
++		add_definitions( -DDEFY_PATENTS )
++	endif()
+ 
+ 	set_target_properties(dhewm3 PROPERTIES COMPILE_DEFINITIONS "__DOOM_DLL__")
+ 	set_target_properties(dhewm3 PROPERTIES LINK_FLAGS "${ldflags}")
+diff --git a/neo/renderer/draw_common.cpp b/neo/renderer/draw_common.cpp
+index 70bcc1d..ce48ea1 100644
+--- a/neo/renderer/draw_common.cpp
++++ b/neo/renderer/draw_common.cpp
+@@ -1140,6 +1140,7 @@ static void RB_T_Shadow( const drawSurf_t *surf ) {
+ 		return;
+ 	}
+ 
++#ifndef DEFY_PATENTS
+ 	// patent-free work around
+ 	if ( !external ) {
+ 		// "preload" the stencil buffer with the number of volumes
+@@ -1151,6 +1152,17 @@ static void RB_T_Shadow( const drawSurf_t *surf ) {
+ 		GL_Cull( CT_BACK_SIDED );
+ 		RB_DrawShadowElementsWithCounters( tri, numIndexes );
+ 	}
++#else
++	// Z-fail, uses stuff described in US6384822 held by Creative Labs in the United States
++	if ( !external ) {
++		qglStencilOp( GL_KEEP, tr.stencilDecr, GL_KEEP );
++		GL_Cull( CT_FRONT_SIDED );
++		RB_DrawShadowElementsWithCounters( tri, numIndexes );
++		qglStencilOp( GL_KEEP, tr.stencilIncr, GL_KEEP );
++		GL_Cull( CT_BACK_SIDED );
++		RB_DrawShadowElementsWithCounters( tri, numIndexes );
++	}
++#endif
+ 
+ 	// traditional depth-pass stencil shadows
+ 	qglStencilOp( GL_KEEP, GL_KEEP, tr.stencilIncr );

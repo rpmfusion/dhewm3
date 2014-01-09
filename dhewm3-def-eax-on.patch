@@ -1,0 +1,12 @@
+diff -Naur dhewm3.old/neo/sound/snd_system.cpp dhewm3/neo/sound/snd_system.cpp
+--- dhewm3.old/neo/sound/snd_system.cpp	2012-08-29 15:27:03.920780581 +0200
++++ dhewm3/neo/sound/snd_system.cpp	2012-08-29 15:26:41.279324291 +0200
+@@ -70,7 +70,7 @@
+ idCVar idSoundSystemLocal::s_skipHelltimeFX( "s_skipHelltimeFX", "0", CVAR_SOUND | CVAR_BOOL, "" );
+ 
+ #if !defined(ID_DEDICATED)
+-idCVar idSoundSystemLocal::s_useEAXReverb( "s_useEAXReverb", "0", CVAR_SOUND | CVAR_BOOL | CVAR_ARCHIVE, "use EFX reverb" );
++idCVar idSoundSystemLocal::s_useEAXReverb( "s_useEAXReverb", "1", CVAR_SOUND | CVAR_BOOL | CVAR_ARCHIVE, "use EFX reverb" );
+ idCVar idSoundSystemLocal::s_decompressionLimit( "s_decompressionLimit", "6", CVAR_SOUND | CVAR_INTEGER | CVAR_ARCHIVE, "specifies maximum uncompressed sample length in seconds" );
+ #else
+ idCVar idSoundSystemLocal::s_useEAXReverb( "s_useEAXReverb", "0", CVAR_SOUND | CVAR_BOOL | CVAR_ROM, "EFX not available in this build" );
