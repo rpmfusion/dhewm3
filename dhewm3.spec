@@ -3,7 +3,7 @@
 
 Name:           dhewm3
 Version:        1.3.1.1304
-Release:        21.git%{shortcommit}%{?dist}
+Release:        22.git%{shortcommit}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ and BSD
 URL:            https://github.com/dhewm/%{name}
@@ -82,6 +82,9 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/%{name}
 
 %changelog
+* Mon Sep 01 2014 Sérgio Basto <sergio@serjux.com> - 1.3.1.1304-22.git6d8108c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Mon Dec 02 2013 Simone Caronni <negativo17@gmail.com> - 1.3.1.1304-21.git6d8108c
 - Review fixes.
 
