@@ -1,14 +1,14 @@
-%global commit 6d8108c508a0bde5c2bea4dec58fa2ca583a16e2
+%global commit 657ad99bf185feb71199c6af097577d037e59d59
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           dhewm3
 Version:        1.3.1.1304
-Release:        21.git%{shortcommit}%{?dist}
+Release:        23%{?shortcommit:.git.%{shortcommit}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ and BSD
 URL:            https://github.com/dhewm/%{name}
 
-Source0:        https://github.com/dhewm/dhewm3/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+Source0:        https://github.com/dhewm/%{name}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
 Source1:        %{name}-README.txt
 # Compatibility with stock Doom 3 has been removed long ago and we don't ship
 # Doom 3 / Doom 3 Resurrection of Evil content.
@@ -62,7 +62,7 @@ iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.
     -DSDL2=ON \
 %endif
     neo
-make %{?_smp_mflags}
+make #_smp_mflags}
 
 %post
 /usr/sbin/alternatives --install %{_bindir}/doom3-engine doom3-engine %{_bindir}/%{name} 10
@@ -82,6 +82,12 @@ make install DESTDIR=%{buildroot}
 %{_libdir}/%{name}
 
 %changelog
+* Mon Mar 30 2015 Simone Caronni <negativo17@gmail.com> - 1.3.1.1304-23.git.657ad99
+- Update to latest commits.
+
+* Mon Sep 01 2014 Sérgio Basto <sergio@serjux.com> - 1.3.1.1304-22.git6d8108c
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Mon Dec 02 2013 Simone Caronni <negativo17@gmail.com> - 1.3.1.1304-21.git6d8108c
 - Review fixes.
 
