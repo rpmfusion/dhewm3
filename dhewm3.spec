@@ -1,21 +1,20 @@
-%global commit 657ad99bf185feb71199c6af097577d037e59d59
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global commit0 89f227b365c2086dbe8818d82324f074a8ab4792
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           dhewm3
-Version:        1.3.1.1304
-Release:        23%{?shortcommit:.git.%{shortcommit}}%{?dist}
+Version:        1.4.1rc1
+Release:        1.%{?shortcommit0}%{?dist}
 Summary:        Dhewm's Doom 3 engine
-License:        GPLv3+ and BSD
+License:        GPLv3+ with exceptions
 URL:            https://github.com/dhewm/%{name}
 
-Source0:        https://github.com/dhewm/%{name}/archive/%{commit}/%{name}-%{version}-%{shortcommit}.tar.gz
+Source0:        https://github.com/dhewm/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 Source1:        %{name}-README.txt
 # Compatibility with stock Doom 3 has been removed long ago and we don't ship
 # Doom 3 / Doom 3 Resurrection of Evil content.
 Patch0:         %{name}-no-cdkey.patch
-Patch1:         %{name}-def-eax-on.patch
-Patch2:         %{name}-def-fixedtic.patch
-Patch3:         %{name}-carmack.patch
+Patch1:         %{name}-def-fixedtic.patch
+Patch2:         %{name}-carmack.patch
 
 # Generic provider for Doom 3 engine based games
 Provides:       doom3-engine = 1.3.1.1304
@@ -28,11 +27,7 @@ BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  libogg-devel
 BuildRequires:  libvorbis-devel
 BuildRequires:  openal-soft-devel
-%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
 BuildRequires:  SDL2-devel
-%else
-BuildRequires:  SDL-devel
-%endif
 BuildRequires:  speex-devel
 BuildRequires:  zlib-devel
 
@@ -43,11 +38,10 @@ original DOOM 3 will be fixed (when identified) without altering the original
 game-play.
 
 %prep
-%setup -qn %{name}-%{commit}
+%setup -qn %{name}-%{commit0}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 cp %{SOURCE1} ./README.txt
 iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.conv COPYING.txt
 
@@ -58,11 +52,8 @@ iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.
     -DCMAKE_BUILD_TYPE=Fedora \
     -DDEDICATED=ON \
     -DZFAIL=1 \
-%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
-    -DSDL2=ON \
-%endif
     neo
-make #_smp_mflags}
+make %{?_smp_mflags}
 
 %post
 /usr/sbin/alternatives --install %{_bindir}/doom3-engine doom3-engine %{_bindir}/%{name} 10
@@ -73,15 +64,27 @@ if [ "$1" = 0 ]; then
 fi
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 %files
-%doc README.md COPYING.txt README.txt
+%{!?_licensedir:%global license %%doc}
+%license COPYING.txt
+%doc README.md README.txt
 %{_bindir}/%{name}
 %{_bindir}/%{name}ded
 %{_libdir}/%{name}
 
 %changelog
+* Sat Jan 23 2016 Simone Caronni <negativo17@gmail.com> - 1.4.1rc1-1.89f227b
+- Update to latest 1.4.1rc1.
+- Drop RHEL 6 support, provided libjpeg is too old and would need to have a
+  bundled jpeg_memory_src() function:
+  https://github.com/dhewm/dhewm3/commit/657ad99bf185feb71199c6af097577d037e59d59
+- Fix Fedora README file (it contained references to RBDoom3BFG...).
+- Update License field as specified in the README.md file.
+- Update Source URL as per packaging guidelines.
+- Add license macro.
+
 * Mon Mar 30 2015 Simone Caronni <negativo17@gmail.com> - 1.3.1.1304-23.git.657ad99
 - Update to latest commits.
 
