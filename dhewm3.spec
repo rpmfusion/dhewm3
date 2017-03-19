@@ -3,7 +3,7 @@
 
 Name:           dhewm3
 Version:        1.4.1rc1
-Release:        1.%{?shortcommit0}%{?dist}
+Release:        2.%{?shortcommit0}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://github.com/dhewm/%{name}
@@ -75,6 +75,9 @@ fi
 %{_libdir}/%{name}
 
 %changelog
+* Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 1.4.1rc1-2.89f227b
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Sat Jan 23 2016 Simone Caronni <negativo17@gmail.com> - 1.4.1rc1-1.89f227b
 - Update to latest 1.4.1rc1.
 - Drop RHEL 6 support, provided libjpeg is too old and would need to have a
