@@ -15,8 +15,7 @@ Source1:        %{name}-README.txt
 Patch0:         %{name}-no-cdkey.patch
 Patch1:         %{name}-def-fixedtic.patch
 Patch2:         %{name}-carmack.patch
-
-ExcludeArch:    ppc64 ppc64le
+Patch3:         %{name}-ppc64le-buildfix.patch
 
 # Generic provider for Doom 3 engine based games
 Provides:       doom3-engine = 1.3.1.1304
@@ -44,6 +43,7 @@ game-play.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 cp %{SOURCE1} ./README.txt
 iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.conv COPYING.txt
 
@@ -78,7 +78,7 @@ fi
 
 %changelog
 * Sat Mar 25 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.4.1rc1-3.89f227b
-- Add ExcludeArch for ppc due to missing ppc_intrinsics.h
+- Add build fix for ppc64le
 
 * Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 1.4.1rc1-2.89f227b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
