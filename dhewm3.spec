@@ -3,7 +3,7 @@
 
 Name:           dhewm3
 Version:        1.4.1rc1
-Release:        2.%{?shortcommit0}%{?dist}
+Release:        3.%{?shortcommit0}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://github.com/dhewm/%{name}
@@ -15,6 +15,8 @@ Source1:        %{name}-README.txt
 Patch0:         %{name}-no-cdkey.patch
 Patch1:         %{name}-def-fixedtic.patch
 Patch2:         %{name}-carmack.patch
+
+ExcludeArch:    ppc64 ppc64le
 
 # Generic provider for Doom 3 engine based games
 Provides:       doom3-engine = 1.3.1.1304
@@ -75,6 +77,9 @@ fi
 %{_libdir}/%{name}
 
 %changelog
+* Sat Mar 25 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.4.1rc1-3.89f227b
+- Add ExcludeArch for ppc due to missing ppc_intrinsics.h
+
 * Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 1.4.1rc1-2.89f227b
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
