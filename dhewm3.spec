@@ -1,9 +1,10 @@
-%global commit0 89f227b365c2086dbe8818d82324f074a8ab4792
+%global commit0 d535e54c90d6d3f22aa2faa4f9a07e04f3e04dc5
+%global date 20170402
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           dhewm3
-Version:        1.4.1rc1
-Release:        3.%{?shortcommit0}%{?dist}
+Version:        1.4.2
+Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://github.com/dhewm/%{name}
@@ -69,7 +70,6 @@ fi
 %make_install
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license COPYING.txt
 %doc README.md README.txt
 %{_bindir}/%{name}
@@ -77,6 +77,10 @@ fi
 %{_libdir}/%{name}
 
 %changelog
+* Thu Apr 06 2017 Simone Caronni <negativo17@gmail.com> - 1.4.2-1.20170402gitd535e54
+- Update to latest snapshot (UHD resolution).
+- Set snapshot release as per packaging guidelines.
+
 * Sat Mar 25 2017 Leigh Scott <leigh123linux@googlemail.com> - 1.4.1rc1-3.89f227b
 - Add ExcludeArch for ppc64le due to missing ppc_intrinsics.h
 
