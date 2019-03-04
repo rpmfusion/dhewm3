@@ -25,6 +25,7 @@ Provides:       doom3-engine = 1.3.1.1304
 Provides:       bundled(minizip-idsoftware) = 1.2.7
 
 BuildRequires:  cmake
+BuildRequires:  gcc-c++
 BuildRequires:  libcurl-devel
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  libogg-devel
