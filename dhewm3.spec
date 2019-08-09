@@ -4,7 +4,7 @@
 
 Name:           dhewm3
 Version:        1.4.2
-Release:        5%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:        6%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://github.com/dhewm/%{name}
@@ -78,6 +78,9 @@ fi
 %{_libdir}/%{name}
 
 %changelog
+* Fri Aug 09 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.4.2-6.20170402gitd535e54
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Mon Mar 04 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.4.2-5.20170402gitd535e54
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
