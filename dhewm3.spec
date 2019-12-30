@@ -1,21 +1,23 @@
-%global commit0 d535e54c90d6d3f22aa2faa4f9a07e04f3e04dc5
-%global date 20170402
+%global commit0 f24f18a61e7c05e1d8e2bf1da962e2587b1ef97a
+%global date 20191103
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+#global tag %{version}
 
 Name:           dhewm3
-Version:        1.4.2
-Release:        6%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Version:        1.5.1
+Release:        2%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
-URL:            https://github.com/dhewm/%{name}
+URL:            https://dhewm3.org/
 
+%if 0%{?tag:1}
+Source0:        https://github.com/dhewm/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+%else
 Source0:        https://github.com/dhewm/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+%endif
+
 Source1:        %{name}-README.txt
-# Compatibility with stock Doom 3 has been removed long ago and we don't ship
-# Doom 3 / Doom 3 Resurrection of Evil content.
 Patch0:         %{name}-no-cdkey.patch
-Patch1:         %{name}-def-fixedtic.patch
-Patch2:         %{name}-carmack.patch
 
 ExcludeArch:    ppc64le
 
@@ -42,22 +44,21 @@ original DOOM 3 will be fixed (when identified) without altering the original
 game-play.
 
 %prep
-%setup -qn %{name}-%{commit0}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-cp %{SOURCE1} ./README.txt
+%autosetup -p1 -n %{name}-%{commit0}
+cp %{SOURCE1} ./Fedora-README.txt
 iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.conv COPYING.txt
 
 %build
 # Passing a fake build name avoids default CMAKE_BUILD_TYPE="RelWithDebInfo"
 # which has hard coded GCC optimizations.
+export CXXFLAGS="%{optflags} -std=c++0x"
 %cmake \
     -DCMAKE_BUILD_TYPE=Fedora \
+    -DCORE=ON -DBASE=ON -DD3XP=ON \
     -DDEDICATED=ON \
-    -DZFAIL=1 \
+    -DSDL2=ON \
     neo
-make %{?_smp_mflags}
+%make_build
 
 %post
 /usr/sbin/alternatives --install %{_bindir}/doom3-engine doom3-engine %{_bindir}/%{name} 10
@@ -72,12 +73,15 @@ fi
 
 %files
 %license COPYING.txt
-%doc README.md README.txt
+%doc README.md Fedora-README.txt
 %{_bindir}/%{name}
 %{_bindir}/%{name}ded
 %{_libdir}/%{name}
 
 %changelog
+* Sun Nov 03 2019 Simone Caronni <negativo17@gmail.com> - 1.5.1-2.20191103gitf24f18a
+- Update to snapshot post 1.5.1 Prerelease 1.
+
 * Fri Aug 09 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.4.2-6.20170402gitd535e54
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
