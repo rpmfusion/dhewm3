@@ -1,9 +1,9 @@
-%global commit0 d535e54c90d6d3f22aa2faa4f9a07e04f3e04dc5
-%global date 20170402
+%global commit0 f24f18a61e7c05e1d8e2bf1da962e2587b1ef97a
+%global date 20191103
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           dhewm3
-Version:        1.4.2
+Version:        1.5.1pre
 Release:        6%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
@@ -14,8 +14,6 @@ Source1:        %{name}-README.txt
 # Compatibility with stock Doom 3 has been removed long ago and we don't ship
 # Doom 3 / Doom 3 Resurrection of Evil content.
 Patch0:         %{name}-no-cdkey.patch
-Patch1:         %{name}-def-fixedtic.patch
-Patch2:         %{name}-carmack.patch
 
 ExcludeArch:    ppc64le
 
@@ -44,8 +42,6 @@ game-play.
 %prep
 %setup -qn %{name}-%{commit0}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 cp %{SOURCE1} ./README.txt
 iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.conv COPYING.txt
 
@@ -78,6 +74,15 @@ fi
 %{_libdir}/%{name}
 
 %changelog
+* Tue Dec 24 2019 Cameron Garnham <me@da2ce7.com> - 1.5.1pre-20191224gitf24f18a6
+- Update to latest snapshot (OpenGL2 glStencilOpSeparate).
+- Reworked "dhewm3-no-cdkey.patch".
+- Removed "dhewm3-carmack.patch", Carmack's Reverse is included upstream.
+    Patent on depth-fail stencil shadows has finally expired on 2019-10-13.
+    See https://patents.google.com/patent/US6384822B1/en for expiration status.
+- Removed "dhewm3-def-fixedtic.patch", included upstream.
+- Set snapshot release as per packaging guidelines.
+
 * Fri Aug 09 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.4.2-6.20170402gitd535e54
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
