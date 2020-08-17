@@ -3,6 +3,8 @@
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 #global tag %{version}
 
+%undefine __cmake_in_source_build
+
 Name:           dhewm3
 Version:        1.5.1
 Release:        4%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
@@ -26,7 +28,7 @@ Provides:       doom3-engine = 1.3.1.1304
 
 Provides:       bundled(minizip-idsoftware) = 1.2.7
 
-BuildRequires:  cmake
+BuildRequires:  cmake3
 BuildRequires:  gcc-c++
 BuildRequires:  libcurl-devel
 BuildRequires:  libjpeg-turbo-devel
@@ -58,7 +60,7 @@ export CXXFLAGS="%{optflags} -std=c++0x"
     -DDEDICATED=ON \
     -DSDL2=ON \
     neo
-%make_build
+%cmake3_build
 
 %post
 /usr/sbin/alternatives --install %{_bindir}/doom3-engine doom3-engine %{_bindir}/%{name} 10
@@ -69,7 +71,7 @@ if [ "$1" = 0 ]; then
 fi
 
 %install
-%make_install
+%cmake3_install
 
 %files
 %license COPYING.txt
