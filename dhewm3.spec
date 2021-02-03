@@ -9,7 +9,7 @@
 
 Name:           dhewm3
 Version:        1.5.1
-Release:        5%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:        6%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://dhewm3.org/
@@ -83,6 +83,9 @@ fi
 %{_libdir}/%{name}
 
 %changelog
+* Wed Feb 03 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.5.1-6.20201102gitbbe30e3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Fri Dec 04 2020 Simone Caronni <negativo17@gmail.com> - 1.5.1-5.20201102gitbbe30e3
 - Update to latest snapshot.
 - Drop CentOS/RHEL 7 support, ALSA is too old for updates.
