@@ -3,13 +3,11 @@
 %global commit0 bbe30e300c1618207f447927b0accedd51ab8769
 %global date 20201102
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-#global tag %{version}
-
-%undefine __cmake_in_source_build
+%global tag %{version}
 
 Name:           dhewm3
 Version:        1.5.1
-Release:        8%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:        9%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://dhewm3.org/
@@ -48,7 +46,7 @@ original DOOM 3 will be fixed (when identified) without altering the original
 game-play.
 
 %prep
-%autosetup -p1 -n %{name}-%{commit0}
+%autosetup -p1 -n %{name}-%{version}
 cp %{SOURCE1} ./Fedora-README.txt
 iconv -f iso8859-1 -t utf-8 COPYING.txt > COPYING.txt.conv && mv -f COPYING.txt.conv COPYING.txt
 
@@ -80,9 +78,12 @@ fi
 %doc README.md Fedora-README.txt
 %{_bindir}/%{name}
 %{_bindir}/%{name}ded
-%{_libdir}/%{name}
+%{_libdir}/%{name}/
 
 %changelog
+* Sun Apr 17 2022 Leigh Scott <leigh123linux@gmail.com> - 1.5.1-9
+- Update to 1.5.1 release
+
 * Wed Feb 09 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.5.1-8.20201102gitbbe30e3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
