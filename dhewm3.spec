@@ -7,7 +7,7 @@
 
 Name:           dhewm3
 Version:        1.5.1
-Release:        9%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:        10%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Dhewm's Doom 3 engine
 License:        GPLv3+ with exceptions
 URL:            https://dhewm3.org/
@@ -81,6 +81,10 @@ fi
 %{_libdir}/%{name}/
 
 %changelog
+* Sun Aug 07 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.5.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild and ffmpeg
+  5.1
+
 * Sun Apr 17 2022 Leigh Scott <leigh123linux@gmail.com> - 1.5.1-9
 - Update to 1.5.1 release
 
